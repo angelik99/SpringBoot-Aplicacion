@@ -1,0 +1,102 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/template :: head"></head>
+
+
+<body>
+	<header th:replace="plantilla/template :: header"></header>
+
+	<div class="container">
+		<div class="card bg-light">
+			<div class="card-header bg-dark text-white" th:text="${titulo}"></div>
+			<div class="card-body">
+				<form th:action="@{/views/ventas/save}" th:object="${venta}" method="post">
+
+
+					<div class="form-group row">
+						<label class="col-md-2" for="nombres">Nombres:</label>
+						<input type="text" th:field="*{nombres}" class="form-control form-control-sm col-md-6"
+							id="nombres" placeholder="Nombres del cliente">
+						<small class="form-text text-danger" th:if="${#fields.hasErrors('nombres')}"
+							th:errors="*{nombres}"></small>
+
+
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2" for="apellidos">Apellidos:</label>
+						<input type="text" th:field="*{apellidos}" class="form-control form-control-sm col-md-6"
+							id="apellidos" placeholder="Apellidos del cliente">
+						<small class="form-text text-danger" th:if="${#fields.hasErrors('apellidos')}"
+							th:errors="*{apellidos}"></small>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2" for="email">Correo:</label>
+						<input type="text" th:field="*{correo}" class="form-control form-control-sm col-md-6"
+							id="correo" placeholder="Correo del cliente">
+						<small class="form-text text-danger" th:if="${#fields.hasErrors('correo')}"
+							th:errors="*{correo}"></small>
+					</div>
+					<script>
+						function check() {
+							document.getElementById("precio").value = document.getElementById("producto").value;
+						} 
+					</script>
+					<div class="form-group row">
+						<label class="col-md-2" for="productos">Producto:</label>
+						<select th:field="*{producto}" class="form-control form-control-sm col-md-6" id="producto"
+							onChange="check();">
+							<option th:each="pr:${productos}" th:value="${pr.id}"
+								th:text="${pr.nombre}" />
+						</select>
+						<small></small>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2" for="productos">Precio:</label>
+						<select class="form-control form-control-sm col-md-6" id="precio" readonly>
+							<option th:each="pr:${productos}" th:value="${pr.id}" th:text="${pr.precio}" readonly />
+						</select>					
+
+						</div>
+
+						<div class="form-group row">
+							<label class="col-md-2" for="tarjeta">Número de tarjeta de credito:</label>
+							<input type="text" th:field="*{numtarjeta}" class="form-control form-control-sm col-md-6"
+								id="numTarjeta" placeholder="Numero de tarjeta de credito">
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('numtarjeta')}"
+								th:errors="*{numtarjeta}"></small>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-md-2" for="fecha">Fecha de Vencimiento de la tarjeta:</label>
+							<input type="text" th:field="*{fecha}" class="form-control form-control-sm col-md-6"
+								id="fechaVen" placeholder="Ej: 11/22">
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('fecha')}"
+								th:errors="*{fecha}"></small>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-md-2" for="cuotas">Numero de cuotas:</label>
+							<input type="text" th:field="*{cuotas}" class="form-control form-control-sm col-md-6"
+								id="cuotas" placeholder="Numero de cuotas">
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('cuotas')}"
+								th:errors="*{cuotas}"></small>
+						</div>
+
+
+
+						<div class="card-footer bg-dark">
+							<input type="submit" class="btn btn-primary btn-sm" value="Realizar Transaccion">
+						</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="plantilla/template :: footer"></footer>
+
+
+</body>
+
+</html>
