@@ -41,23 +41,19 @@ public class VentaController {
 		List<Producto> listadoProductos = productoService.listarTodos();
 		model.addAttribute("titulo", "Formulario");
 		model.addAttribute("venta", venta);
-		model.addAttribute("productos", listadoProductos);
-		
+		model.addAttribute("productos", listadoProductos);		
 		
 		return "/views/ventas/frmCreate";
-		
-		
+			
 }
-	public String validar(@ModelAttribute Producto producto, Integer precio,  RedirectAttributes attribute ) {
+	public String validar(@ModelAttribute Producto producto,   RedirectAttributes attribute ) {
 		
-		if(precio > 9999999) {
-			attribute.addFlashAttribute("info", "No puede pagar mas de 10.000.000");
-		}
+		
 		return "/views/ventas/frmCreate";
 	}
 	@PostMapping("/save")
 	public String guardar(@Valid @ModelAttribute Venta venta,  BindingResult result, 
-			Model model, Integer precio, RedirectAttributes attribute,  String estado ) {
+			Model model, Integer precio, RedirectAttributes attribute,  Producto producto ) {
 		List<Producto> listadoProductos = productoService.listarTodos();
 
 		if(result.hasErrors()) {
@@ -68,11 +64,33 @@ public class VentaController {
 			attribute.addFlashAttribute("error", "Existen Errores");
 			return "/views/ventas/frmCreate";
 		}
-	
+		if(producto.getPrecio() >= 10000000) {
+			model.addAttribute("titulo", "Formulario");
+			model.addAttribute("venta", venta);
+			model.addAttribute("productos", listadoProductos);
+			attribute.addFlashAttribute("warning", "Transacción RECHAZADA. No puede realizar una compra de 10.000.000 o mas");
+			return "redirect:/views/ventas/create";
+			
+		}		
+		List<Venta> listVentasNum = ventaService.buscaPorFechaNumTarjeta(venta.getFechaVenta(), venta.getNumtarjeta());
+		int valorDiario  =0;
+		for(Venta ventaItem: listVentasNum) {
+			valorDiario = valorDiario + ventaItem.getProducto().getPrecio();
+						
+		}
+		if(valorDiario >= 5000000) {
+			model.addAttribute("titulo", "Formulario");
+			model.addAttribute("venta", venta);
+			model.addAttribute("productos", listadoProductos);
+			attribute.addFlashAttribute("warning", "No puede realizar transacciones de mas de 5.000.0000 por dia");
+			return "redirect:/views/ventas/create";
+			
+		}
 		
-		ventaService.guardar(venta);		
-		estado="APROBADA";
-		attribute.addFlashAttribute("success", "Estado de la compra: " + estado);
+		
+		ventaService.guardar(venta);	
+	
+		attribute.addFlashAttribute("success", "La transaccion n°: " + venta.getId() + " es: " + venta.getEstado());
 		return "redirect:/views/productos/";
 	}
 }

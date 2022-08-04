@@ -1,5 +1,6 @@
 package com.example.demo.Models.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class VentaServiceImplement implements IVentaService {
 		// TODO Auto-generated method stub
 
 	}
+public List<Venta> buscaPorFechaNumTarjeta(Date fechaVenta, String numtarjeta) {
+		
+		return (List<Venta>) ventaRepository.findByNumtarjetaAndFechaVenta(numtarjeta, fechaVenta);
+	}
+
 
 }

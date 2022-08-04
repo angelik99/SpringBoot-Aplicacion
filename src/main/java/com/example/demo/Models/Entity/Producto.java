@@ -22,8 +22,18 @@ public class Producto implements Serializable {
 	private Long id;
 	private String Nombre;
 	private int Precio;
+	private String  descripcion;
 	
 	
+	
+	
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -36,7 +46,7 @@ public class Producto implements Serializable {
 	public void setNombre(String nombre) {
 		Nombre = nombre;
 	}
-	public double getPrecio() {
+	public int getPrecio() {
 		return Precio;
 	}
 	public void setPrecio(int precio) {
@@ -44,9 +54,10 @@ public class Producto implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Producto [id=" + id + ", Nombre=" + Nombre + ", Precio=" + Precio + "]";
+		return "Producto [id=" + id + ", Nombre=" + Nombre + ", Precio=" + Precio + ", descripcion=" + descripcion
+				+ "]";
 	}
-	
+
 	
 
 }

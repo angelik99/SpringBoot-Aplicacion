@@ -1,7 +1,9 @@
 package com.example.demo.Models.Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,13 +44,21 @@ public class Venta implements Serializable {
 	@Pattern(regexp="[0-9]{2}/[0-9]{2}")
 	private String fecha;
 	@NotNull
-
+	
 	private int cuotas;
 	
-	private String estado;
+	private String estado= "APROBADA";
+	@Column(name="fecha_venta")
+	private Date fechaVenta;
 	
 	
 	
+	public Date getFechaVenta() {
+		return fechaVenta;
+	}
+	public void setFechaVenta(Date fechaVenta) {
+		this.fechaVenta = fechaVenta;
+	}
 	public Long getId() {
 		return id;
 	}
